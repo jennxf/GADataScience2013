@@ -1,0 +1,17 @@
+read.table("~/Desktop/RCdata/salary.dat", header=T)
+
+fit<-lm(sl~.,data=x)
+
+summary(fit)
+
+fit2<-update(fit,.~.-dg) summary(fit2)
+
+fit3<-update(fit2,.~.-dg)summary(fit3)
+
+fit4<-update(fit3,.~.-yd)summary(fit4)
+
+fit5<-update(fit4,.~.-rk)summary(fit5)
+
+# fit still has the highest adjusted R-squared
+
+plot(resid(fit))    #residuals are close to the axisqqnorm(resid(fit)) # has a fairly straight line
