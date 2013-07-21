@@ -1,0 +1,15 @@
+
+install.packages('DMwR', lib="Rpackages")
+library(DMwR)library(ggplot2) data<-iris labels<-data$Species  # store labels
+data$Species <- NULL # remove labels from feature set
+ knn.nfold <- function(n, max_k)    #create a nfold function{ set.seed(10) 
+
+N <- nrow(data) #number of records is 150
+test.pct <- 1/n #percent of data to be training set
+err.rates <- data.frame() # convert generalization error to a data frame
+max.k <- max_k for (a in 1:max.k) {     err.rates <- rbind(err.rates, 0)}  for (b in 1:n) {    test.index <- sample(1:N, test.pct * N)            train.data <- data[-test.index, ]   #perform train/test split          test.data <- data[test.index, ]               train.labels <- as.factor(as.matrix(labels)[-test.index, ])   #extract training set labels    test.labels <- as.factor(as.matrix(labels)[test.index, ])    #extract test set labels       for (k in 1:max.k) {         knn.fit <- knn(            train = train.data,      #training set             test = test.data,        #test set              cl = train.labels,       #labels                k = k                    #number of nearest neighbors to pull         )
+cat('\n', 'k = ', k, ', test.pct = ', test.pct, '\n', sep='') # print params
+print(table(test.labels, knn.fit)) #print confusion matrix
+
+this.err <- sum(test.labels != knn.fit) / length(test.labels) #store generalization errorserr.rates[k,1] <- err.rates[k,1] + this.err }} results <- data.frame(1:max.k, err.rates)   names(results) <- c('k', 'err.rate')  title <- paste('knn results (train.pct = ', 1 - test.pct, ')', sep='') results.plot <- ggplot(results, aes(x=k, y=err.rate)) + geom_point() + geom_line() results.plot <- results.plot + ggtitle(title) results.plot }
+
