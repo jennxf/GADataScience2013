@@ -2,7 +2,7 @@ library(stats)
 library(ggplot2)
 set.seed(1)
 
-d.train <- read.csv("~/Desktop/imageRecog/train.csv", stringsAsFactors=F 
+d.train <- read.csv("~/Desktop/imageRecog/train.csv", stringsAsFactors=F)
 #import training data into R and dont convert strings to numeric
 str(d.train) #check data type
 im.train <- d.train$Image 
